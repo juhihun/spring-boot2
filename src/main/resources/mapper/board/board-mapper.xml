@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.board.mapper.BoardMapper">
+	<!-- 전체조회 -->
+	<select id="selectBoardAll" resultType="BoardVO">
+		SELECT board_no
+				,board_title
+				,board_content
+				,board_writer
+				,regdate
+				,updatedate
+				,image
+		FROM board
+		ORDER BY board_no DESC
+	</select>
+
+	<!-- 단건조회 -->
+	<select id="selectBoardInfo" resultType="BoardVO">
+		SELECT board_no
+				,board_title
+				,board_content
+				,board_writer
+				,regdate
+				,updatedate
+				,image
+		FROM board
+		WHERE board_no = #{boardNo}
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insertBoardInfo" parameterType="BoardVO">
+		<selectKey keyProperty="boardNo" 
+					resultType="Integer"
+					order="BEFORE">
+			SELECT NVL(MAX(board_no),100)+1
+			FROM board
+		</selectKey>
+		INSERT INTO board
+		(	
+			board_no
+			board_title
+			,board_content
+			,board_writer
+			,regdate
+			,image
+		)
+		VALUES
+		(	
+			#{boardNo}
+			,#{boardTitle}
+			,#{boardContent}
+			,#{boardWriter}
+			,#{regdate}
+			,#{image}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateBoardInfo" parameterType="BoardVO">
+		UPDATE board
+		<set>
+			board_title = #{boardTitle}
+			,board_content = #{boardContent}
+			,board_writer = #{boardWriter}
+			,updatedate = sysdate
+			,image = #{image}
+		</set>
+		WHERE board_no = #{boardNo}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteBoardInfo" parameterType="int">
+		DELETE FROM board
+		WHERE board_no = #{boardNo}
+	</delete>
+
+</mapper>
+
+
+
+
