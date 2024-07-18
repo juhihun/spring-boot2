@@ -1,9 +1,64 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/">
+<html xmlns:th="https://www.thymeleaf.org/"
+ >
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<h3>게시글 등록</h3>
+	<form name="insertForm" th:action="@{/boardInsert}" method="post">
+		<div>
+			<label>제목</label>
+			<input type="text" name="boardTitle">
+		</div>
+		<div>
+			<label>작성자</label>
+			<input type="text" name="boardWriter">
+		</div>
+		<div>
+			<label>작성일자</label>
+			<input type="date" name="regdate">
+		</div>
+		<div>
+			<label>내용</label>
+			<input type="text" name="boardContent">
+		</div>
+		<div>
+			<label>이미지</label>
+			<input type="text" name="image">
+		</div>
+		<div>
+			<button type="submit" >등록</button>
+			<button type="button" th:onclick="|location.href='@{/boardlist}'|">목록</button>
+		</div>
+	</form>
+	<script>
+		//document.querySelector('form[name="insertForm"]');
+		insertForm.addEventListener('submit',function(event){
+			event.preventDefault();
+			let title = document.querySelector('input[name="boardTitle"]')
+			if(title.value == ''){
+				alert('제목은 필수 값입니다.');
+				title.focus();
+				return;
+			}
+			
+			let writer = document.querySelector('input[name="boardWriter"]');
+			if(writer.value == ''){
+				alert('작성자는 필수 값입니다.');
+				writer.focus();
+				return;
+			}
+			
+			/* let regdate = document.querySelector('input[name="regdate"]');
+			if(regdate.value == ''){
+				alert('작성일자는 필수 값입니다.');
+				regdate.focus();
+				return;
+			} */
+			insertForm.submit();
+		});
+	</script>
 </body>
 </html>

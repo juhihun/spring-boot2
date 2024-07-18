@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
 <head>
-
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"> </script> 
 </head>
 <body>
 	<div>
@@ -30,20 +28,6 @@
 				</th:block>
 			</tbody>
 		</table>
-		<div>
-			<button type="button" th:onclick="|location.href='@{/boardInsert}'|">등록</button>
-		</div>
-		<script>
-	
-			$('tbody > tr').on('click', function(event){
-				/* if(event.target.tagName == 'BUTTON') return; */
-				let bno = $(event.currentTarget).children().first().text();
-				console.log(bno);
-				let url = '/boardInfo?boardNo=' + bno;
-				console.log('url : ' + url);
-				location.href = url;
-			});
-	</script>
 	</div>
 </body>
 </html>

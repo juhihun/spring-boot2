@@ -84,7 +84,7 @@ public class BoardController {
 	@GetMapping("boardDelete") //Integer앞에 RequestParam 적으면 받는건에 대해 필수값임
 	public String boardDelete(Integer boardNo) { //service에 선언된 매개변수가 int라
 		boardService.deleteBoard(boardNo);
-		return "redirect:boardList";
+		return "redirect:boardlist";
 	}
 	
 }

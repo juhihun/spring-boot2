@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" >
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <!--/* jquery */-->
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"> </script>
+</head>
+<body>
+<h3>게시글 수정</h3>
+	<form name="updateForm" th:object="${board}">
+		<div>
+			<label>번호</label>
+			<input type="number" name="boardNo" th:field="*{boardNo}" readonly>
+		</div>
+		<div>
+			<label>제목</label>
+			<input type="text" name="boardTitle" th:field="*{boardTitle}">
+		</div>
+		<div>
+			<label>작성자</label>
+			<input type="text" name="boardWriter" th:field="*{boardWriter}">
+		</div>
+		<div>
+			<label>내용</label>
+			<input type="text" name="boardContent" th:field="*{boardContent}">
+		</div>
+		<div>
+			<label>작성일자</label>
+			<input type="date" name="regdate" th:field="*{regdate}">
+		</div>
+		<div>
+			<label>이미지</label>
+			<input type="text"name="image" th:field="*{image}">
+		</div>
+		<div>
+			<button type="button" id="updateBtn" >수정</button>
+			<button type="button" th:onclick="|location.href='@{/boardlist}'|">목록</button>
+		</div>
+	</form>
+	<script>
+		//$('form[name="updateForm"] button').on('click',updateAjax);아래는 버튼아이디로 찾는방법
+		$('#updateBtn').on('click',updateAjax);
+		
+		function updateAjax(event){
+			//1) 유효성체크
+				if(validationCheck() == false) return;
+			//2) 서버에 보낼 데이터 정리
+				let dataObj = getBoardObj();
+				console.log('데이터',dataObj);
+			//3) AJAX (경로,기본설정)
+			$.ajax('boardUpdate',{
+				type:'post', 	//통신할 때 method: get, post, put, delete
+				// => 커맨드 객체, @RequestParam
+				//data : dataObj	//data는 기본 객체 타입만 받음, 자동으로 QueryString변환됨
+				//=> @RequestBody (JSON)
+				contentType : 'application/json',
+				data: JSON.stringify(dataObj)
+			})
+			.done( result => {
+				console.log(result);
+			})
+			.fail(err => console.log(err));
+		}
+		
+		//1)
+		function validationCheck(){
+			let btitle = $('[name="boardTitle"]');
+			if(btitle.val()==''){
+				alert('제목은 필수 값입니다.');
+				btitle.focus();
+				return false;
+			}//return false -> event핸들러 종료가됨 input태그 입력해주지않아도됨, name값으로 찾아감
+			
+			let bwriter = $('[name="boardWriter"]');
+			if(bwriter.val() == ''){
+				alert('작성자는 필수 값입니다.');
+				bwriter.focus();
+				return false;
+			}
+			return true;
+		}
+		
+		//2)
+		function getBoardObj(){
+			let formAry = $('form[name="updateForm"]').serializeArray();
+			//[{name : 'empid' , value:'209'},{name :'empname' , value : 'HONG'},...]
+			// -> serializeArray()를 통해 하나의 변수로 꺼낼 수 있음, 객체로 바꿔줘야함
+			// => javascript 에선 FormData java에선 serializeArray()
+			console.log('폼',formAry);
+			let formObj = {};
+
+			//{empid : 209, empname:'Hong', ...} -> 이 형태가 되어야함
+			$.each(formAry, function(idx, input){
+				//input = {name : 'empid' , value : '209'} 
+				formObj[input.name] = input.value;
+				//formObj['empid'] = '209';
+			});
+			return formObj;
+				//{empid : 209, empname:'Hong', ...} -> 이 형태가 됨, 객체(input.name) 이름과 VO이름이 같아서 전달 가능
+		}
+		
+	</script>
+</body>
+</html>

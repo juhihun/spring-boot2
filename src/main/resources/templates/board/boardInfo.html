@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" >
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<h3>게시판 상세보기</h3>
+	<div>
+		<div>
+			<label>번호</label>
+			<input type="number" th:value="${board.boardNo}" readonly>
+		</div>
+		<div>
+			<label>제목</label>
+			<input type="text" th:value="${board.boardTitle}" readonly>
+		</div>
+		<div>
+			<label>작성자</label>
+			<input type="text" th:value="${board.boardWriter}" readonly>
+		</div>
+		<div>
+			<label>작성일자</label>
+			<input type="date" th:value="${#dates.format(board.regdate,'yyyy-MM-dd')}" readonly>
+		</div>
+			<div>
+			<label>내용</label>
+			<input type="text" th:value="${board.boardContent}" readonly>
+		</div>
+		<div>
+			<label>이미지</label>
+			<input type="text" th:value="${board.image}" readonly>
+		</div>
+		<div>
+			<button type="button" th:onclick="|location.href='@{/boardUpdate(boardNo=${board.boardNo})}'|">수정</button>
+			<button type="button" th:onclick="|location.href='@{/boardlist}'|">목록</button>
+			<button type="button" th:onclick="|location.href='@{/boardDelete(boardNo=${board.boardNo})}'|">삭제</button>
+		</div>
+	</div>
+</body>
+</html>
