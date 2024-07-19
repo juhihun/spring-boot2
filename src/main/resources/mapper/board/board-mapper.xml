@@ -38,7 +38,7 @@
 		INSERT INTO board
 		(	
 			board_no
-			board_title
+			,board_title
 			,board_content
 			,board_writer
 			,regdate
@@ -63,7 +63,10 @@
 			,board_content = #{boardContent}
 			,board_writer = #{boardWriter}
 			,updatedate = sysdate
+			<if test="image != null">
 			,image = #{image}
+				
+			</if>
 		</set>
 		WHERE board_no = #{boardNo}
 	</update>

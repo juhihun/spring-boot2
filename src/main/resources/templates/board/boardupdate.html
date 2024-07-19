@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" >
+<html xmlns:th="https://www.thymeleaf.org/"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{common/layouts/default_layout}"
+		layout:fragment="content" >
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -8,7 +11,7 @@
 </head>
 <body>
 <h3>게시글 수정</h3>
-	<form name="updateForm" th:object="${board}">
+	<form name="updateForm" th:object="${board}"  enctype="multipart/form-data">
 		<div>
 			<label>번호</label>
 			<input type="number" name="boardNo" th:field="*{boardNo}" readonly>
@@ -22,16 +25,16 @@
 			<input type="text" name="boardWriter" th:field="*{boardWriter}">
 		</div>
 		<div>
+			<label>작성일자</label>
+			<input type="date" name="regdate" th:field="*{regdate}" readonly>
+		</div>
+		<div>
 			<label>내용</label>
 			<input type="text" name="boardContent" th:field="*{boardContent}">
 		</div>
 		<div>
-			<label>작성일자</label>
-			<input type="date" name="regdate" th:field="*{regdate}">
-		</div>
-		<div>
 			<label>이미지</label>
-			<input type="text"name="image" th:field="*{image}">
+			<input type="file" name="images" th:field="*{image}">
 		</div>
 		<div>
 			<button type="button" id="updateBtn" >수정</button>
@@ -40,7 +43,7 @@
 	</form>
 	<script>
 		//$('form[name="updateForm"] button').on('click',updateAjax);아래는 버튼아이디로 찾는방법
-		$('#updateBtn').on('click',updateAjax);
+/* 		$('#updateBtn').on('click',updateAjax);
 		
 		function updateAjax(event){
 			//1) 유효성체크
@@ -59,6 +62,7 @@
 			})
 			.done( result => {
 				console.log(result);
+				location.href=`/boardInfo?boardNo=${result.target.boardNo}`
 			})
 			.fail(err => console.log(err));
 		}
@@ -99,7 +103,44 @@
 			return formObj;
 				//{empid : 209, empname:'Hong', ...} -> 이 형태가 됨, 객체(input.name) 이름과 VO이름이 같아서 전달 가능
 		}
+	 */
+		$('#updateBtn').on('click', boardUpdateAjax);
 		
+		function boardUpdateAjax(event){
+			//1) 보낼 데이터 확인
+			let info = getBoardInfo();
+			
+			//2) AJAX
+			$.ajax('boardUpdate',{
+				type:'post',
+				contentType : 'application/json',
+				data : JSON.stringify(info)
+			})
+			.done(data => {
+				if(data.result){
+					alert('정상적으로 수정되었습니다.');
+					location.href=`/boardInfo?boardNo=${info.boardNo}`
+				}else{
+					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+				}
+			})
+			.fail(err => console.log(err));			
+		};
+	
+		function getBoardInfo(){
+			let formData= $('form[name="updateForm"]').serializeArray();
+			console.log('1) serializeArray', formData);
+			
+			let objData = {};
+			$.each(formData, (idx, input) => {
+				console.log('2) input', idx, input);
+				objData[input.name] = input.value;
+			});
+			
+			console.log('3) objData', objData);
+			return objData;
+		};
+	
 	</script>
 </body>
 </html>

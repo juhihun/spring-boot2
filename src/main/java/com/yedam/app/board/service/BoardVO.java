@@ -12,9 +12,10 @@ public class BoardVO {
 	public String boardTitle;	//제목
 	public String boardContent;	//내용
 	public String boardWriter;	//작성
-	public Date regdate;		//작성일
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	public Date regdate;		//작성일 java.util.date : yyyy/MM/dd->annotation 쓰기,화면 넘겨줄때 필요(등록, 수정 시)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	public Date updatedate;		//수정일
-	@DateTimeFormat(pattern="yy-MM-dd")
 	public String image;		//첨부이미지
 	
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<th:block th:fragment="defaultHeader">
+<!-- 전체조회, 등록 -->
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/boardlist}">전체조회</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/boardInsert}">등록</a>
+  </li>
+
+</ul>
+</th:block>
+</html>

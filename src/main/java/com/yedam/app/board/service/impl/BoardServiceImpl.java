@@ -1,5 +1,6 @@
 package com.yedam.app.board.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int insertBoard(BoardVO boardVO) {
+		boardVO.setRegdate(new Date());
 		int result = boardMapper.insertBoardInfo(boardVO);
 		return result == 1 ? boardVO.getBoardNo() : -1;
 	}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<!-- configs 완전대체 replace'경로::프래그먼트이름'->표기법-->
+<th:blick th:replace="common/configs/default_config :: defaultConfig"></th:blick>
+</head>
+<body>
+<!-- fragments header하위요소로 들어간다-->
+	<div class="container">
+		<header th:insert="common/fragments/default_header :: defaultHeader"></header>
+		<main layout:fragment="content"></main>
+		</div>
+</body>
+</html>

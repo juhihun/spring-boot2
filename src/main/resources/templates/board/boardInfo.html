@@ -6,7 +6,8 @@
 </head>
 <body>
 	<h3>게시판 상세보기</h3>
-	<div>
+	<form  action="uploadForm" method="post"
+					enctype="multipart/form-data">
 		<div>
 			<label>번호</label>
 			<input type="number" th:value="${board.boardNo}" readonly>
@@ -26,16 +27,18 @@
 			<div>
 			<label>내용</label>
 			<input type="text" th:value="${board.boardContent}" readonly>
+				<!--/* [[${board.boardContent]] style="height:100px; widthL200px;" */-->
 		</div>
 		<div>
 			<label>이미지</label>
-			<input type="text" th:value="${board.image}" readonly>
+			<img th:src="@{/images/{fileName}(fileName=${board.image})}" style="width : 50%;">
+			<!-- /images/cat.jpg -->
 		</div>
 		<div>
 			<button type="button" th:onclick="|location.href='@{/boardUpdate(boardNo=${board.boardNo})}'|">수정</button>
 			<button type="button" th:onclick="|location.href='@{/boardlist}'|">목록</button>
 			<button type="button" th:onclick="|location.href='@{/boardDelete(boardNo=${board.boardNo})}'|">삭제</button>
 		</div>
-	</div>
+	</form>
 </body>
 </html>
